@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require "hub_store"
+require "hub_store/cli"
+
+HubStore::Cli.run(ARGV)

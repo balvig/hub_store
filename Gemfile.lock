@@ -1,4 +1,14 @@
 PATH
+  remote: ../hub_link
+  specs:
+    hub_link (0.1.0)
+      activesupport
+      dotenv
+      faraday-detailed_logger
+      faraday_middleware
+      octokit
+
+PATH
   remote: .
   specs:
     hub_store (0.1.0)
@@ -32,12 +42,6 @@ GEM
       faraday (~> 0.8)
     faraday_middleware (0.12.2)
       faraday (>= 0.7.4, < 1.0)
-    hub_link (0.1.0)
-      activesupport
-      dotenv
-      faraday-detailed_logger
-      faraday_middleware
-      octokit
     i18n (1.5.1)
       concurrent-ruby (~> 1.0)
     minitest (5.11.3)
@@ -59,6 +63,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler
+  hub_link!
   hub_store!
   minitest (~> 5.0)
   rake (~> 10.0)

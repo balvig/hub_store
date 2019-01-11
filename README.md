@@ -28,12 +28,13 @@ HubStore::Exporter.new(resource: Review).run
 # => Exports review data from sqlite DB to `reviews.csv`
 ```
 
-### Using from command line (WIP)
+### Using from command line
 
 ```bash
 gem install hub_store
 OCTOKIT_ACCESS_TOKEN=<token> hub_store <github_organization/repo_name>
-# => Exports 2 years worth of PRs/Reviews to csv files
+# Exports 2 years worth of PRs/Reviews to csv files.
+# Subsequent runs resume from last updated_at
 ```
 
 ## Development

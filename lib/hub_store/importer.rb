@@ -5,9 +5,9 @@ require "hub_store/review"
 
 module HubStore
   class Importer
-    def initialize(repos:, start_date: 2.years.ago)
+    def initialize(repos:, start_date: nil)
       @repos = repos
-      @start_date = start_date
+      @start_date = start_date || 2.years.ago
     end
 
     def run

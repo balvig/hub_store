@@ -6,13 +6,15 @@ require "hub_store/review_request"
 
 module HubStore
   class Importer
-    def initialize(repo:, start_date: nil)
+    def initialize(repo:, start_date: nil, ui: Ui.new)
       @repo = repo
-      @start_date = start_date || 2.years.ago
+      @start_date = (start_date || 2.years.ago).to_date
+      @ui = ui
     end
 
     def run
       stream.in_batches do |batch|
+        ui.log "\n-- #{batch.query} --"
         import_prs(batch)
         import_reviews(batch)
         import_review_requests(batch)
@@ -21,34 +23,36 @@ module HubStore
 
     private
 
-      attr_reader :repo, :start_date
+      attr_reader :repo, :start_date, :ui
 
       def import_prs(batch)
+        ui.start("Importing PRs")
+
         batch.pull_requests.each do |row|
           Insert.new(row: row, target: PullRequest).run
         end
 
-        log "Imported #{PullRequest.count} PRs so far"
+        ui.stop("Total: #{PullRequest.count}")
       end
 
       def import_reviews(batch)
+        ui.start("Importing reviews")
+
         batch.reviews.each do |row|
           Insert.new(row: row, target: Review).run
         end
 
-        log "Imported #{Review.count} reviews so far"
+        ui.stop("Total: #{Review.count}")
       end
 
       def import_review_requests(batch)
+        ui.start("Importing review requests")
+
         batch.review_requests.each do |row|
           Insert.new(row: row, target: ReviewRequest).run
         end
 
-        log "Imported #{ReviewRequest.count} review requests so far"
-      end
-
-      def log(msg)
-        puts msg
+        ui.stop("Total: #{ReviewRequest.count}")
       end
 
       def stream

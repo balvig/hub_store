@@ -7,8 +7,6 @@ module HubStore
 
     def run
       record.update! importable_attributes
-    rescue ActiveRecord::RecordNotUnique
-      Rails.logger.warn "Skipping duplicate record ##{row[:id]}"
     end
 
     private

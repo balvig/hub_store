@@ -5,7 +5,6 @@ require "hub_store/exporter"
 
 module HubStore
   class Error < StandardError; end
-
 	# Set up database
 	ActiveRecord::Base.establish_connection(
 		adapter: "sqlite3",

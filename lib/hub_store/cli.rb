@@ -1,3 +1,5 @@
+require "hub_store/ui"
+
 module HubStore
   class Cli
     def self.run(*args)

@@ -20,11 +20,7 @@ module HubStore
       end
 
       def importable_attributes
-        normalized_attributes.slice(*target_columns)
-      end
-
-      def normalized_attributes
-        row.transform_keys { |key| key.to_s.chomp("?") }
+        row.slice(*target_columns)
       end
 
       def target_columns

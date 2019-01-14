@@ -18,7 +18,7 @@ module HubStore
       attr_reader :argv
 
       def start_date
-        PullRequest.order(updated_at: :desc).limit(1).pluck(:updated_at).first
+        PullRequest.resume_date
       end
 
       def import_data

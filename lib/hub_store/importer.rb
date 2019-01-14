@@ -2,6 +2,7 @@ require "hub_link"
 require "hub_store/insert"
 require "hub_store/pull_request"
 require "hub_store/review"
+require "hub_store/review_request"
 
 module HubStore
   class Importer
@@ -12,8 +13,9 @@ module HubStore
 
     def run
       stream.in_batches do |batch|
-        import_prs(batch.pull_requests)
-        import_reviews(batch.reviews)
+        import_prs(batch)
+        import_reviews(batch)
+        import_review_requests(batch)
       end
     end
 
@@ -21,20 +23,32 @@ module HubStore
 
       attr_reader :repos, :start_date
 
-      def import_prs(rows)
-        rows.each do |row|
+      def import_prs(batch)
+        batch.pull_requests.each do |row|
           Insert.new(row: row, target: PullRequest).run
         end
 
-        puts "Imported #{PullRequest.count} PRs so far"
+        log "Imported #{PullRequest.count} PRs so far"
       end
 
-      def import_reviews(rows)
-        rows.each do |row|
+      def import_reviews(batch)
+        batch.reviews.each do |row|
           Insert.new(row: row, target: Review).run
         end
 
-        puts "Imported #{Review.count} reviews so far"
+        log "Imported #{Review.count} reviews so far"
+      end
+
+      def import_review_requests(batch)
+        batch.review_requests.each do |row|
+          Insert.new(row: row, target: ReviewRequest).run
+        end
+
+        log "Imported #{ReviewRequest.count} review requests so far"
+      end
+
+      def log(msg)
+        puts msg
       end
 
       def stream

@@ -2,8 +2,10 @@ require "active_record"
 
 module HubStore
   class PullRequest < ActiveRecord::Base
-    def self.resume_date
-      group(:repo).order(updated_at: :asc).pluck(:updated_at).min
+    scope :recently_updated_first, -> { order(updated_at: :desc) }
+
+    def self.for(repo)
+      where(repo: repo)
     end
   end
 end

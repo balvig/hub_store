@@ -17,18 +17,21 @@ module HubStore
 
       attr_reader :argv
 
-      def start_date
-        PullRequest.resume_date
-      end
-
       def import_data
-        Importer.new(repos: repo_names, start_date: start_date).run
+        repos.each do |repo|
+          start_date = PullRequest.for(repo).recently_updated_first.first&.updated_at
+          Importer.new(repo: repo, start_date: start_date).run
+        end
       end
 
       def export_csv
         [PullRequest, Review].each do |resource|
           Exporter.new(resource: resource).run
         end
+      end
+
+      def repos
+        repo_names.split(",")
       end
 
       def repo_names

@@ -6,8 +6,8 @@ require "hub_store/review_request"
 
 module HubStore
   class Importer
-    def initialize(repos:, start_date: nil)
-      @repos = repos
+    def initialize(repo:, start_date: nil)
+      @repo = repo
       @start_date = start_date || 2.years.ago
     end
 
@@ -21,7 +21,7 @@ module HubStore
 
     private
 
-      attr_reader :repos, :start_date
+      attr_reader :repo, :start_date
 
       def import_prs(batch)
         batch.pull_requests.each do |row|
@@ -52,7 +52,7 @@ module HubStore
       end
 
       def stream
-        @_stream ||= HubLink::Stream.new(repos, start_date: start_date)
+        @_stream ||= HubLink::Stream.new(repo, start_date: start_date)
       end
   end
 end

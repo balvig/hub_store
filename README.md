@@ -3,38 +3,17 @@
 Save raw pull request and review metadata from GitHub for metrics
 analysis etc.
 
-
 ## Usage
 
-### Using inside an app
-Add this line to your application's Gemfile:
+Running the following will export 2 years worth of PRs/Reviews to CSV
+files.
 
-```ruby
-gem "hub_store"
-```
-
-Then:
-
-```ruby
-REPOS = "balvig/hub_store,balvig/hub_link"
-
-HubStore::Importer.new(repos: REPOS, start_date: 4.weeks.ago).run
-# => Imports pull request and review data to a local sqlite DB
-
-HubStore::Exporter.new(resource: PullRequest).run
-# => Exports pull request data from sqlite DB to `pull_requests.csv`
-
-HubStore::Exporter.new(resource: Review).run
-# => Exports review data from sqlite DB to `reviews.csv`
-```
-
-### Using from command line
+The gem will use an sqlite db as interim storage to allow resuming and
+subsequent exports:
 
 ```bash
 gem install hub_store
-OCTOKIT_ACCESS_TOKEN=<token> hub_store <github_organization/repo_name>
-# Exports 2 years worth of PRs/Reviews to csv files.
-# Subsequent runs resume from last updated_at
+OCTOKIT_ACCESS_TOKEN=<token> hub_store <github_organization/repo_names>
 ```
 
 ## Development

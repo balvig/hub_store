@@ -31,6 +31,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "activerecord"
   spec.add_dependency "dotenv"
-  spec.add_dependency "hub_link"
+  spec.add_dependency "hub_link", ">= 0.4"
   spec.add_dependency "sqlite3"
 end

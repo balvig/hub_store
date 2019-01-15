@@ -24,7 +24,7 @@ module HubStore
       end
 
       def target_columns
-        target.columns.map(&:name)
+        target.columns.map(&:name).map(&:to_sym)
       end
 
       attr_reader :row, :target

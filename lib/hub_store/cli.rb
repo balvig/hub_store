@@ -26,7 +26,7 @@ module HubStore
       end
 
       def export_csv
-        [PullRequest, Review].each do |resource|
+        [PullRequest, Review, ReviewRequest].each do |resource|
           Exporter.new(resource: resource).run
         end
       end

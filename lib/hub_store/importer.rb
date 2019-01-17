@@ -8,7 +8,7 @@ module HubStore
   class Importer
     def initialize(repo:, start_date: nil, ui: Ui.new)
       @repo = repo
-      @start_date = (start_date || 2.years.ago).to_date
+      @start_date = start_date
       @ui = ui
     end
 
@@ -24,6 +24,14 @@ module HubStore
     private
 
       attr_reader :repo, :start_date, :ui
+
+      def start_date
+        @start_date || latest_local_update
+      end
+
+      def latest_local_update
+        PullRequest.for(repo).recently_updated_first.first&.updated_at
+      end
 
       def import_prs(batch)
         ui.start("Importing PRs")

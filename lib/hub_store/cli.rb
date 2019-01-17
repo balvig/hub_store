@@ -21,8 +21,7 @@ module HubStore
 
       def import_data
         repos.each do |repo|
-          start_date = PullRequest.for(repo).recently_updated_first.first&.updated_at
-          Importer.new(repo: repo, start_date: start_date).run
+          Importer.new(repo: repo).run
         end
       end
 

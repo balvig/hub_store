@@ -27,18 +27,15 @@ module HubStore
         t.boolean "straight_approval"
         t.datetime "closed_at"
         t.datetime "created_at", null: false
-        t.datetime "updated_at", null: false
       end
     end
 
     unless ActiveRecord::Base.connection.table_exists?("reviews")
       create_table "reviews", force: :cascade do |t|
         t.bigint "pull_request_id"
-        t.datetime "submitted_at"
+        t.datetime "submitted_at", null: false
         t.string "reviewer"
         t.boolean "approval"
-        t.datetime "created_at", null: false
-        t.datetime "updated_at", null: false
       end
     end
 
@@ -47,7 +44,6 @@ module HubStore
         t.string "requester"
         t.string "reviewer"
         t.datetime "created_at", null: false
-        t.datetime "updated_at", null: false
       end
     end
 	end

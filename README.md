@@ -5,7 +5,7 @@ analysis etc.
 
 ## Usage
 
-Running the following will export 2 years worth of PRs/Reviews to CSV
+Running the following will export all PRs/Review metadata in a repo to CSV
 files.
 
 The gem will use an sqlite db as interim storage to allow resuming and

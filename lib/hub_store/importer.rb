@@ -1,4 +1,5 @@
 require "hub_link"
+require "hub_store/dummy_ui"
 require "hub_store/insert"
 require "hub_store/pull_request"
 require "hub_store/review"
@@ -6,7 +7,7 @@ require "hub_store/review_request"
 
 module HubStore
   class Importer
-    def initialize(repo:, start_date: nil, ui: Ui.new)
+    def initialize(repo:, start_date: nil, ui: DummyUi.new)
       @repo = repo
       @start_date = start_date
       @ui = ui

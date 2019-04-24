@@ -1,11 +1,12 @@
 require "csv"
+require "hub_store/dummy_ui"
 require "hub_store/insert"
 require "hub_store/pull_request"
 require "hub_store/review"
 
 module HubStore
   class Exporter
-    def initialize(resource:, ui: Ui.new)
+    def initialize(resource:, ui: DummyUi.new)
       @resource = resource
       @ui = ui
     end

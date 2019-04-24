@@ -42,6 +42,7 @@ module HubStore
 
     unless ActiveRecord::Base.connection.table_exists?("review_requests")
       create_table "review_requests", force: :cascade do |t|
+        t.bigint "pull_request_id"
         t.string "requester"
         t.string "reviewer"
         t.datetime "created_at", null: false

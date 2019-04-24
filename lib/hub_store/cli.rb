@@ -21,14 +21,18 @@ module HubStore
 
       def import_data
         repos.each do |repo|
-          Importer.new(repo: repo).run
+          Importer.new(repo: repo, ui: ui).run
         end
       end
 
       def export_csv
         [PullRequest, Review, ReviewRequest].each do |resource|
-          Exporter.new(resource: resource).run
+          Exporter.new(resource: resource, ui: ui).run
         end
+      end
+
+      def ui
+        Ui.new
       end
 
       def repos

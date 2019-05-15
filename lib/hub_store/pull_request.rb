@@ -6,7 +6,7 @@ module HubStore
     validates :repo, presence: true
 
     def self.for(repo)
-      where(repo: repo)
+      where(repo: repo.to_s)
     end
   end
 end

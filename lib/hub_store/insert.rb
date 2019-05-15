@@ -1,5 +1,7 @@
 module HubStore
   class Insert
+    delegate :primary_key, to: :target
+
     def initialize(row:, target:)
       @row = row
       @target = target
@@ -12,11 +14,11 @@ module HubStore
     private
 
       def record
-        target.find_or_initialize_by(id: id)
+        target.find_or_initialize_by(primary_key => primary_key_value)
       end
 
-      def id
-        row[:id]
+      def primary_key_value
+        row[primary_key]
       end
 
       def importable_attributes

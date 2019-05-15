@@ -22,6 +22,7 @@ ActiveRecord::Schema.define do
   create_table "reviews", force: :cascade do |t|
   end
 
-  create_table "review_requests", force: :cascade do |t|
+  create_table "review_requests", force: :cascade, id: false do |t|
+    t.string "digest", limit: 40, primary: true
   end
 end

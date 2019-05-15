@@ -11,3 +11,4 @@
 *.csv
 Gemfile.lock
 *.log
+test/fixtures/vcr_cassettes/

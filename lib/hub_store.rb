@@ -1,7 +1,6 @@
 require "dotenv/load"
 require "hub_store/version"
-require "hub_store/importer"
-require "hub_store/exporter"
+require "hub_store/cli"
 
 module HubStore
   class Error < StandardError; end
@@ -41,7 +40,8 @@ module HubStore
     end
 
     unless ActiveRecord::Base.connection.table_exists?("review_requests")
-      create_table "review_requests", force: :cascade do |t|
+      create_table "review_requests", force: :cascade, id: false do |t|
+        t.string "digest", limit: 40, primary: true
         t.bigint "pull_request_id"
         t.string "requester"
         t.string "reviewer"

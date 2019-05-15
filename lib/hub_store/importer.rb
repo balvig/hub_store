@@ -1,71 +1,47 @@
 require "hub_link"
-require "hub_store/dummy_ui"
+require "hub_store/callbacks"
 require "hub_store/insert"
-require "hub_store/pull_request"
-require "hub_store/review"
-require "hub_store/review_request"
 
 module HubStore
   class Importer
-    def initialize(repo:, start_date: nil, ui: DummyUi.new)
-      @repo = repo
+    delegate :callback, to: :callbacks
+
+    def self.run(*args, &block)
+      new(*args, &block).run
+    end
+
+    def initialize(repo:, start_date:, batch_size: 7, resources:, &block)
+      @repo = repo.to_s
       @start_date = start_date
-      @ui = ui
+      @batch_size = batch_size
+      @resources = resources
+      @callbacks = Callbacks.new(block)
     end
 
     def run
       stream.in_batches do |batch|
-        ui.log "\n-- #{batch.query} --"
-        import_prs(batch)
-        import_reviews(batch)
-        import_review_requests(batch)
+        callback(:init, batch.query)
+
+        resources.each do |source, target|
+          callback(:start, source)
+          import batch.fetch(source), to: target
+          callback(:finish, target.count)
+        end
       end
     end
 
     private
 
-      attr_reader :repo, :start_date, :ui
+      attr_reader :repo, :start_date, :batch_size, :resources, :callbacks
 
-      def start_date
-        @start_date || latest_local_update
-      end
-
-      def latest_local_update
-        PullRequest.for(repo).recently_updated_first.first&.updated_at
-      end
-
-      def import_prs(batch)
-        ui.start("Importing PRs")
-
-        batch.pull_requests.each do |row|
-          Insert.new(row: row, target: PullRequest).run
+      def import(records, to:)
+        records.each do |row|
+          Insert.new(row: row, target: to).run
         end
-
-        ui.stop("Total: #{PullRequest.count}")
-      end
-
-      def import_reviews(batch)
-        ui.start("Importing reviews")
-
-        batch.reviews.each do |row|
-          Insert.new(row: row, target: Review).run
-        end
-
-        ui.stop("Total: #{Review.count}")
-      end
-
-      def import_review_requests(batch)
-        ui.start("Importing review requests")
-
-        batch.review_requests.each do |row|
-          Insert.new(row: row, target: ReviewRequest).run
-        end
-
-        ui.stop("Total: #{ReviewRequest.count}")
       end
 
       def stream
-        @_stream ||= HubLink::Stream.new(repo, start_date: start_date)
+        @_stream ||= HubLink::Stream.new(repo, start_date: start_date, batch_size: batch_size)
       end
   end
 end

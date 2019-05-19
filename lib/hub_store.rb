@@ -35,6 +35,7 @@ module HubStore
         t.bigint "pull_request_id"
         t.datetime "submitted_at", null: false
         t.string "reviewer"
+        t.string "state"
         t.boolean "approval"
       end
     end

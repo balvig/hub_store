@@ -7,7 +7,7 @@
 /spec/reports/
 /tmp/
 .env
-/db
+hub_store_db
 *.csv
 Gemfile.lock
 *.log

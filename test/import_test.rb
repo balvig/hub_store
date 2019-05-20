@@ -3,14 +3,8 @@ require "test_helper"
 module HubStore
   class ImporterTest < Minitest::Test
     def test_run
-      resources = {
-        pull_requests: PullRequest,
-        reviews: Review,
-        review_requests: ReviewRequest
-      }
-
       VCR.use_cassette("import") do
-        Importer.run(repo: "balvig/spyke", start_date: 1.year.ago, resources: resources, batch_size: 90) do |on|
+        Storage::Import.new(repo: "balvig/spyke").run do |on|
           on.init do |query|
             puts query
           end

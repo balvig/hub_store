@@ -2,7 +2,7 @@ require "active_record"
 
 module HubStore::Storage
   class Database
-    def initialize(options = {})
+    def initialize(options = { adapter: "sqlite3", database: "hub_store_db" })
       @options = options
     end
 

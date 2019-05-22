@@ -33,7 +33,7 @@ module HubStore
 
       def setup_database
         ui.start("Preparing database")
-        Storage::Database.new(adapter: "sqlite3", database: "hub_store_db").setup
+        Storage::Database.new.setup
         ui.stop("Done.")
       end
 

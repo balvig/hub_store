@@ -5,9 +5,10 @@ require "hub_store/storage/review_request"
 
 module HubStore::Storage
   class Import
-    def initialize(repo:, resources:)
+    def initialize(repo:, resources:, start_date: nil)
       @repo = repo
       @resources = resources
+      @start_date = start_date
     end
 
     def run(&block)
@@ -19,7 +20,7 @@ module HubStore::Storage
       attr_reader :repo, :resources
 
       def start_date
-        PullRequest.for(repo).latest_update
+        @start_date.presence || PullRequest.for(repo).latest_update
       end
   end
 end

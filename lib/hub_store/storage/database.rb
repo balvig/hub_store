@@ -42,7 +42,7 @@ module HubStore::Storage
           unless ActiveRecord::Base.connection.table_exists?("reviews")
             create_table "reviews", force: :cascade do |t|
               t.bigint "pull_request_id"
-              t.datetime "submitted_at", null: false
+              t.datetime "submitted_at"
               t.string "reviewer"
               t.string "state"
               t.boolean "approval"

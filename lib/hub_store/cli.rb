@@ -8,9 +8,9 @@ require "hub_store/ui"
 module HubStore
   class Cli
     RESOURCES = {
-      pull_requests: Storage::PullRequest,
+      review_requests: Storage::ReviewRequest,
       reviews: Storage::Review,
-      review_requests: Storage::ReviewRequest
+      pull_requests: Storage::PullRequest
     }.freeze
 
     def self.run(*args)
@@ -32,16 +32,16 @@ module HubStore
       attr_reader :argv
 
       def setup_database
-        ui.start("Preparing dB")
+        ui.start("Preparing database")
         Storage::Database.new(adapter: "sqlite3", database: "hub_store_db").setup
         ui.stop("Done.")
       end
 
       def import_data
         repos.each do |repo|
-          Storage::Import.new(repo: repo, resources: RESOURCES).run do |on|
-            on.init do |query|
-              ui.log "\n-- #{query} --"
+          Storage::Import.new(repo: repo, resources: RESOURCES, start_date: start_date).run do |on|
+            on.info do |message|
+              ui.log "\n-- #{message} --"
             end
 
             on.start do |resource|
@@ -73,6 +73,10 @@ module HubStore
 
       def repo_names
         argv[0].presence || stop
+      end
+
+      def start_date
+        ENV["START_DATE"]
       end
 
       def stop

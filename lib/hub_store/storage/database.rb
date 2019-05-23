@@ -23,10 +23,12 @@ module HubStore::Storage
         ActiveRecord::Schema.define do
           unless ActiveRecord::Base.connection.table_exists?("pull_requests")
             create_table "pull_requests", force: :cascade do |t|
+              t.string "title"
               t.string "submitter"
               t.string "number"
               t.string "labels"
               t.string "repo"
+              t.string "state"
               t.string "html_url"
               t.integer "approval_time"
               t.integer "time_to_first_review"

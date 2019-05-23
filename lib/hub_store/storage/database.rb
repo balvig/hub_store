@@ -27,6 +27,7 @@ module HubStore::Storage
               t.string "number"
               t.string "labels"
               t.string "repo"
+              t.string "html_url"
               t.integer "approval_time"
               t.integer "time_to_first_review"
               t.integer "merge_time"
@@ -45,6 +46,7 @@ module HubStore::Storage
               t.datetime "submitted_at"
               t.string "reviewer"
               t.string "state"
+              t.string "html_url"
               t.boolean "approval"
             end
           end

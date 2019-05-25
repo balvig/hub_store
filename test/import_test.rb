@@ -5,8 +5,8 @@ module HubStore
     def test_run
       VCR.use_cassette("import") do
         Storage::Import.new(repo: "balvig/spyke").run do |on|
-          on.init do |query|
-            puts query
+          on.init do |options|
+            puts options
           end
         end
       end

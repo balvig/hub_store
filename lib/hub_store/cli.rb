@@ -40,8 +40,8 @@ module HubStore
       def import_data
         repos.each do |repo|
           Storage::Import.new(repo: repo, resources: RESOURCES, start_date: start_date).run do |on|
-            on.init do |query|
-              ui.log "\n-- #{query} --"
+            on.init do |options|
+              ui.log "\n-- #{options} --"
             end
 
             on.start do |resource|

@@ -1,18 +1,9 @@
 require "hub_store/exporter"
-
-require "hub_store/storage/database"
 require "hub_store/storage/import"
-
 require "hub_store/ui"
 
 module HubStore
   class Cli
-    RESOURCES = {
-      review_requests: Storage::ReviewRequest,
-      reviews: Storage::Review,
-      pull_requests: Storage::PullRequest
-    }.freeze
-
     def self.run(*args)
       new(*args).run
     end
@@ -22,7 +13,7 @@ module HubStore
     end
 
     def run
-      setup_database
+      link_logger_to_ui
       import_data
       export_csv
     end
@@ -31,27 +22,13 @@ module HubStore
 
       attr_reader :argv
 
-      def setup_database
-        ui.start("Preparing database")
-        Storage::Database.new.setup
-        ui.stop("Done.")
+      def link_logger_to_ui
+        HubLink.config.logger = ui
       end
 
       def import_data
         repos.each do |repo|
-          Storage::Import.new(repo: repo, resources: RESOURCES, start_date: start_date).run do |on|
-            on.init do |options|
-              ui.log "\n-- #{options} --"
-            end
-
-            on.start do |resource|
-              ui.start("Importing #{resource}")
-            end
-
-            on.finish do |count|
-              ui.stop("Total: #{count}")
-            end
-          end
+          Storage::Import.new(repo: repo, since: since).run
         end
       end
 
@@ -75,8 +52,8 @@ module HubStore
         argv[0].presence || stop
       end
 
-      def start_date
-        ENV["START_DATE"]
+      def since
+        ENV["SINCE"]
       end
 
       def stop

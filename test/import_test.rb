@@ -1,15 +1,9 @@
 require "test_helper"
 
 module HubStore
-  class ImporterTest < Minitest::Test
+  class ImportTest < Minitest::Test
     def test_run
-      VCR.use_cassette("import") do
-        Storage::Import.new(repo: "balvig/spyke").run do |on|
-          on.init do |options|
-            puts options
-          end
-        end
-      end
+      Storage::Import.new(repo: "balvig/spyke").run
 
       assert_equal 4, PullRequest.count
       assert_equal 2, Review.count

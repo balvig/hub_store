@@ -2,4 +2,5 @@
 
 require "hub_store"
 
+HubStore::Storage::Database.new.setup
 HubStore::Cli.run(ARGV)

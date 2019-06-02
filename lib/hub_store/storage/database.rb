@@ -34,9 +34,11 @@ module HubStore::Storage
               t.integer "time_to_first_review"
               t.integer "merge_time"
               t.integer "additions"
-              t.integer "review_count"
+              t.integer "comments_count"
+              t.integer "review_comments_count"
               t.boolean "straight_approval"
               t.datetime "closed_at"
+              t.datetime "merged_at"
               t.datetime "created_at", null: false
               t.datetime "updated_at", null: false
             end
@@ -48,8 +50,10 @@ module HubStore::Storage
               t.datetime "submitted_at"
               t.string "reviewer"
               t.string "state"
+              t.boolean "reply"
               t.string "html_url"
               t.boolean "approval"
+              t.text "body"
             end
           end
 

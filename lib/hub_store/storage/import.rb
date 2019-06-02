@@ -1,4 +1,4 @@
-require "hub_link/importer"
+require "hub_link"
 require "hub_store/storage/database"
 
 module HubStore

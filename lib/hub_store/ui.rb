@@ -1,3 +1,4 @@
+require "pastel"
 require "tty/spinner"
 
 module HubStore
@@ -20,7 +21,7 @@ module HubStore
     end
 
     def start(msg)
-      spinner.update(title: msg, status: nil)
+      spinner.update(title: format(msg), status: nil)
       spinner.auto_spin
     end
 
@@ -30,11 +31,20 @@ module HubStore
 
     def stop(msg)
       spinner.update(status: nil)
-      spinner.success("(#{msg})")
+      spinner.success("(#{format msg, :green})")
     end
 
     private
 
       attr_reader :spinner
+
+      def format(msg, options = [])
+        options << :bold if msg.start_with?("*")
+        pastel.decorate msg, *options
+      end
+
+      def pastel
+        @_pastel ||= Pastel.new
+      end
   end
 end

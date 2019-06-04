@@ -30,13 +30,9 @@ module HubStore::Storage
               t.string "repo"
               t.string "state"
               t.string "html_url"
-              t.integer "approval_time"
-              t.integer "time_to_first_review"
-              t.integer "merge_time"
               t.integer "additions"
               t.integer "comments_count"
               t.integer "review_comments_count"
-              t.boolean "straight_approval"
               t.datetime "closed_at"
               t.datetime "merged_at"
               t.datetime "created_at", null: false

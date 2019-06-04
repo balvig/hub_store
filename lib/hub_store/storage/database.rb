@@ -46,9 +46,7 @@ module HubStore::Storage
               t.datetime "submitted_at"
               t.string "reviewer"
               t.string "state"
-              t.boolean "reply"
               t.string "html_url"
-              t.boolean "approval"
               t.text "body"
             end
           end

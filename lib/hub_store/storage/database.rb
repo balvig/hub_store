@@ -47,6 +47,7 @@ module HubStore::Storage
               t.string "reviewer"
               t.string "state"
               t.string "html_url"
+              t.integer "review_comments_count"
               t.boolean "reply"
               t.text "body"
             end

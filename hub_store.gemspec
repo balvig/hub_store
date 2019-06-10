@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "activerecord"
   spec.add_dependency "dotenv"
-  spec.add_dependency "hub_link", ">= 0.16.0"
+  spec.add_dependency "hub_link", ">= 0.18.0"
   spec.add_dependency "pastel"
   spec.add_dependency "sqlite3"
   spec.add_dependency "tty-spinner"

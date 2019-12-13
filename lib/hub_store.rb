@@ -7,7 +7,6 @@ require "hub_store/storage/review_request"
 
 module HubStore
   RESOURCES = {
-    review_requests: Storage::ReviewRequest,
     reviews: Storage::Review,
     pull_requests: Storage::PullRequest
   }.freeze

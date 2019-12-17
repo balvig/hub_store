@@ -52,16 +52,6 @@ module HubStore::Storage
               t.text "body"
             end
           end
-
-          unless ActiveRecord::Base.connection.table_exists?("review_requests")
-            create_table "review_requests", force: :cascade, id: false do |t|
-              t.string "digest", limit: 40, primary: true
-              t.bigint "pull_request_id"
-              t.string "requester"
-              t.string "reviewer"
-              t.datetime "created_at", null: false
-            end
-          end
         end
       end
   end

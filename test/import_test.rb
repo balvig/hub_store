@@ -5,9 +5,8 @@ module HubStore
     def test_run
       Storage::Import.new(repo: "balvig/spyke").run
 
-      assert_equal 4, PullRequest.count
-      assert_equal 2, Review.count
-      assert_equal 0, ReviewRequest.count
+      assert_equal 4, Storage::PullRequest.count
+      assert_equal 2, Storage::Review.count
     end
   end
 end

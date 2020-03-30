@@ -15,10 +15,14 @@ module HubStore
 
       private
 
-        attr_reader :repo, :resources
+        attr_reader :repo
 
         def since
-          @since.presence || PullRequest.for(repo).latest_update
+          @since.presence || last_pull_request_update
+        end
+
+        def last_pull_request_update
+          PullRequest.for(repo).latest_update
         end
     end
   end
